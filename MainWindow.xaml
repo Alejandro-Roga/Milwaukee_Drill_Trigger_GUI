@@ -1,0 +1,109 @@
+﻿<Window x:Class="Milwaukee_Drill_Trigger_GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Milwaukee_Drill_Trigger_GUI"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow"  
+        Height="640" 
+        MinHeight="640"
+        Width="820"
+        MinWidth="820"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="PreConfig_Box" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
+            <materialDesign:Card Padding="32" VerticalAlignment="Stretch" Margin="10,142,0,10" HorizontalAlignment="Left" Width="376"/>
+            <TextBox HorizontalAlignment="Left" Height="31" Margin="20,152,0,0" TextWrapping="Wrap" Text="Configuration" VerticalAlignment="Top" Width="164" FontSize="20" Foreground="#FF006AC6" FontWeight="Bold" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" Cursor="Arrow"/>
+            <Button x:Name="Connect_Button" Content="CONNECT" HorizontalAlignment="Left" Margin="276,152,0,0" Width="100" Background="#FF006AC6" BorderBrush="#7F000000" Height="37" Click="Connect_Button_Click" Padding="5,4" VerticalAlignment="Top" />
+            <Grid x:Name="Config_Container" IsEnabled="False">
+                <TextBox x:Name="BCT_Text" HorizontalAlignment="Left" Height="23" Margin="83,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding ElementName=BMT_Slider, Path=Value}" TabIndex="1" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="BCT_Text_LostFocus" KeyUp="BCT_Text_KeyUp" CaretBrush="#FF006AC6" SelectionBrush="#FF006AC6" Cursor="IBeam"/>
+                <Button x:Name="Start_Button" Content="START" HorizontalAlignment="Left" Margin="20,0,0,20" Width="80" Background="#FF34D08C" BorderBrush="#7F000000" Height="36" VerticalAlignment="Bottom" Click="Start_Button_Click" Visibility="Hidden"/>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Height="70" Margin="79,36,0,0" VerticalAlignment="Top" Source="Images/mps_logo_blue.png" HorizontalAlignment="Left" Width="237"/>
+                <TextBox HorizontalAlignment="Left" Height="25" Margin="20,201,0,0" TextWrapping="Wrap" Text="Field Compensation" VerticalAlignment="Top" Width="138" FontSize="14" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" Cursor="Arrow"/>
+                <Slider x:Name="BMT_Slider" Margin="163,231,0,0" VerticalAlignment="Top" RenderTransformOrigin="2,2.722" Height="23" Maximum="255" AutoToolTipPlacement="TopLeft" Foreground="#FF006AC6" SmallChange="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Width="171" PreviewMouseLeftButtonUp="BMT_Slider_PreviewMouseLeftButtonUp"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="20,231,0,0" TextWrapping="Wrap" Text="BCT" VerticalAlignment="Top" Width="58" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <TextBox x:Name="MGH_Text" HorizontalAlignment="Left" Height="23" Margin="130,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="28" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding Value, ElementName=MGH_Slider}" TabIndex="2" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="MGH_Text_LostFocus" KeyUp="MGH_Text_KeyUp" CaretBrush="#FF006AC6" Cursor="IBeam"/>
+                <TextBox HorizontalAlignment="Left" Height="25" Margin="20,291,0,0" TextWrapping="Wrap" Text="Magnetic Level" VerticalAlignment="Top" Width="105" FontSize="14" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="20,321,0,0" TextWrapping="Wrap" Text="Mag. Level High" VerticalAlignment="Top" Width="105" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="20,376,0,0" TextWrapping="Wrap" Text="Mag. Level Low" VerticalAlignment="Top" Width="105" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <TextBox x:Name="MGL_Text" HorizontalAlignment="Left" Height="23" Margin="130,375,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="28" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding Value, ElementName=MGL_Slider}" TabIndex="2" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="MGL_Text_LostFocus" KeyUp="MGL_Text_KeyUp" CaretBrush="#FF006AC6" Cursor="IBeam"/>
+                <Slider x:Name="MGH_Slider" Margin="163,320,0,0" VerticalAlignment="Top" RenderTransformOrigin="2,2.722" Height="23" Maximum="7" AutoToolTipPlacement="TopLeft" Foreground="#FF006AC6" SmallChange="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Width="111" ValueChanged="MGH_Slider_ValueChanged"/>
+                <Slider x:Name="MGL_Slider" Margin="163,376,0,0" VerticalAlignment="Top" RenderTransformOrigin="2,2.722" Height="23" Maximum="7" AutoToolTipPlacement="TopLeft" Foreground="#FF006AC6" SmallChange="1" IsSnapToTickEnabled="True" HorizontalAlignment="Left" Width="111" ValueChanged="MGL_Slider_ValueChanged"/>
+                <TextBox x:Name="Zero_Text" HorizontalAlignment="Left" Height="23" Margin="83,473,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="Zero_Text_LostFocus" CaretBrush="#FF006AC6" SelectionBrush="#FF006AC6" Focusable="False" AllowDrop="False" IsTabStop="False" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="25" Margin="20,441,0,0" TextWrapping="Wrap" Text="Zero Setting" VerticalAlignment="Top" Width="138" FontSize="14" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="20,473,0,0" TextWrapping="Wrap" Text=" Zero at:" VerticalAlignment="Top" Width="58" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <Button x:Name="Zero_Button" Height="23" Margin="175,473,0,0" VerticalAlignment="Top" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Focusable="False" AllowDrop="False" IsTabStop="False" HorizontalAlignment="Left" Width="199" Content="Set current angle as Zero" Background="White" Foreground="#DD000000" Padding="16,2" Click="Zero_Button_Click" BorderBrush="#FF006AC6"/>
+                <Button x:Name="Save_Button" Content="SAVE" HorizontalAlignment="Left" Margin="296,0,0,20" VerticalAlignment="Bottom" Width="80" Background="#FF006AC6" BorderBrush="#7F000000" Height="37" Click="Save_Button_Click" />
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="33,348,0,0" TextWrapping="Wrap" Text="- Threshold [mT]:" VerticalAlignment="Top" Width="102" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <TextBox x:Name="MGH_Rise" HorizontalAlignment="Left" Height="23" Margin="175,348,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0" TabIndex="2" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="Zero_Text_LostFocus" IsTabStop="False" Focusable="False" AllowDrop="False" CaretBrush="#FF006AC6" SelectionBrush="#FF006AC6" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="21" Margin="135,350,0,0" TextWrapping="Wrap" Text="Rise" VerticalAlignment="Top" Width="35" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <TextBox x:Name="MGH_Fall" HorizontalAlignment="Left" Height="23" Margin="260,348,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0" TabIndex="2" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="Zero_Text_LostFocus" Focusable="False" AllowDrop="False" IsTabStop="False" CaretBrush="#FF006AC6" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="21" Margin="220,350,0,0" TextWrapping="Wrap" Text="Fall" VerticalAlignment="Top" Width="35" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <Separator HorizontalAlignment="Left" Height="11" Margin="20,268,0,0" VerticalAlignment="Top" Width="356" Background="#FFE2E2E2"/>
+                <Separator HorizontalAlignment="Left" Height="16" Margin="18,425,0,0" VerticalAlignment="Top" Width="356" Background="#FFE2E2E2"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="33,402,0,0" TextWrapping="Wrap" Text="- Threshold [mT]:" VerticalAlignment="Top" Width="102" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <TextBox x:Name="MGL_Rise" HorizontalAlignment="Left" Height="23" Margin="175,402,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0" TabIndex="2" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="Zero_Text_LostFocus" Focusable="False" AllowDrop="False" IsTabStop="False" CaretBrush="#FF006AC6" SelectionBrush="#FF006AC6" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="21" Margin="135,404,0,0" TextWrapping="Wrap" Text="Rise" VerticalAlignment="Top" Width="35" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+                <TextBox x:Name="MGL_Fall" HorizontalAlignment="Left" Height="23" Margin="260,402,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0" TabIndex="2" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="Zero_Text_LostFocus" Focusable="False" AllowDrop="False" IsTabStop="False" CaretBrush="#FF006AC6" Cursor="Arrow"/>
+                <TextBox HorizontalAlignment="Left" Height="21" Margin="220,404,0,0" TextWrapping="Wrap" Text="Fall" VerticalAlignment="Top" Width="35" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <ProgressBar x:Name="Position_Graph" Value="{Binding Travel_Value}" Margin="10,0,10,30" Height="46" Maximum="10" Foreground="#FF7294FF" Background="#FFC2DFFF" BorderBrush="#FF006AC6" BorderThickness="2" Panel.ZIndex="3" VerticalAlignment="Bottom" />
+            <Slider Margin="4,0,5,23" VerticalAlignment="Bottom" Height="26" Foreground="Black" BorderBrush="Transparent" TickPlacement="BottomRight" RenderTransformOrigin="0.447,0.5"  Value="-1" IsTabStop="False" Maximum="8.8"/>
+            <Rectangle Fill="#FFFAFAFA" Height="34" Margin="0,0,5,31" Stroke="#FFFAFAFA" VerticalAlignment="Bottom" Panel.ZIndex="1"/>
+            <TextBox HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" TextWrapping="Wrap" Text="Trigger Position" VerticalAlignment="Top" Width="164" FontSize="20" Foreground="#FF006AC6" FontWeight="Bold" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" Cursor="Arrow"/>
+            <TextBox x:Name="Position_Value_Text" Margin="138,0,139,38" TextWrapping="Wrap" FontSize="20" Foreground="White" FontWeight="Bold" BorderThickness="0" Panel.ZIndex="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsTabStop="False" Focusable="False" AllowDrop="False" Height="31" VerticalAlignment="Bottom" Cursor="Arrow"/>
+            <!--<lvc:Gauge x:Name="Position_Graph" Value="{Binding Value}" Grid.Column="0" Margin="10,0,10,10" From="0" To="100" AnimationsSpeed="0:0:0.1" Foreground="#DD000000" GaugeActiveFill="Red">
+                <lvc:Gauge.GaugeBackground>
+                    <SolidColorBrush Color="#FF0078FF" Opacity="0.1"/>
+                </lvc:Gauge.GaugeBackground>
+            </lvc:Gauge>-->
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <lvc:AngularGauge x:Name="Angle_Graph" Value="{Binding Angle_Value}" FromValue="0" ToValue="270" AnimationsSpeed="0:0:0.05"
+                          LabelsStep="20" TicksStep="10" Wedge="300"
+                          TicksForeground="{x:Null}" Foreground="{x:Null}" 
+                          FontWeight="Medium" FontSize="10"
+                          SectionsInnerRadius="0.8" Margin="10,10,10,0" NeedleFill="#FF006AC6" BorderBrush="Black" Height="345" VerticalAlignment="Top">
+                <lvc:AngularGauge.Sections>
+                    <lvc:AngularSection x:Name="Angle_Graph_OFF" FromValue="0" ToValue="100" Fill="#FFC1C8D0"/>
+                    <lvc:AngularSection x:Name="Angle_Graph_ON" FromValue="100" ToValue="270" Fill="#FF006AC6"/>
+                </lvc:AngularGauge.Sections>
+            </lvc:AngularGauge>
+            <Ellipse Fill="#FFFAFAFA" Margin="93,77,93,0" Height="210" VerticalAlignment="Top" MaxWidth="210" MaxHeight="210" Stroke="#FF006AC6" StrokeThickness="3"/>
+
+            <TextBlock x:Name="Angle_Value_Text" Margin="120,144,119,144" FontSize="72" FlowDirection="RightToLeft" Foreground="#FFC1C8D0" HorizontalAlignment="Center"/>
+            <TextBox Margin="135,121,136,0" Text="Sensor Angle" FontSize="20" Foreground="#FF006AC6" FontWeight="Bold" VerticalAlignment="Top" Height="31" BorderThickness="0" AllowDrop="False" Focusable="False" IsTabStop="False" HorizontalAlignment="Center" Cursor="Arrow"/>
+        </Grid>
+
+        <Grid x:Name="Control_Buttons" Grid.Row="3" Grid.Column="1">
+            <materialDesign:Card Padding="32" VerticalAlignment="Stretch" Margin="52,0,52,10" MaxWidth="292"/>
+            <TextBox x:Name="LED_Drill_Text" Margin="262,0,80,39" TextWrapping="Wrap" Text="Drill OFF" Foreground="#FF006AC6" BorderThickness="0" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" Panel.ZIndex="1" Focusable="False" AllowDrop="False" IsTabStop="False" Height="54" VerticalAlignment="Bottom" MaxWidth="54" Cursor="Arrow"/>
+            <Ellipse x:Name="LED_Drill" Fill="White" Margin="248,0,68,27" Stroke="#FF006AC6" StrokeThickness="6" Height="80" VerticalAlignment="Bottom" MaxWidth="80"/>
+            <Ellipse x:Name="MGH_Led" Fill="White" Height="40" Margin="99,0,257,56" Stroke="#FF006AC6" VerticalAlignment="Bottom" StrokeThickness="3" MinWidth="40" MaxWidth="40"/>
+            <Ellipse x:Name="MGL_Led" Fill="White" Height="40" Margin="166,0,190,56" Stroke="#FF006AC6" VerticalAlignment="Bottom" StrokeThickness="3" MinWidth="40" MaxWidth="40"/>
+            <TextBox Height="23" Margin="99,0,257,29" TextWrapping="Wrap" Text="MGH" VerticalAlignment="Bottom" Foreground="#FF006AC6" BorderThickness="0" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" AllowDrop="False" Focusable="False" IsTabStop="False" Cursor="Arrow"/>
+            <TextBox Height="26" Margin="166,0,190,28" TextWrapping="Wrap" Text="MGL" VerticalAlignment="Bottom" Foreground="#FF006AC6" BorderThickness="0" FontSize="14" FontWeight="Bold" HorizontalContentAlignment="Center" Focusable="False" IsTabStop="False" AllowDrop="False" Cursor="Arrow"/>
+        </Grid>
+    </Grid>
+</Window>
