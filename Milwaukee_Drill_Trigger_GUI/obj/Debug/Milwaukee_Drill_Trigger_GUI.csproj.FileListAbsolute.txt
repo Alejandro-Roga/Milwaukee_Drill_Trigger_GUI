@@ -1,7 +1,3 @@
-C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\App.g.cs
-C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI_MarkupCompile.cache
-C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\MainWindow.g.cs
-C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI_MarkupCompile.lref
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\bin\Debug\Milwaukee_Drill_Trigger_GUI.exe.config
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\bin\Debug\Milwaukee_Drill_Trigger_GUI.exe
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\bin\Debug\Milwaukee_Drill_Trigger_GUI.pdb
@@ -16,8 +12,13 @@ C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_T
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\bin\Debug\MaterialDesignColors.pdb
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\bin\Debug\MaterialDesignThemes.Wpf.pdb
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\bin\Debug\MaterialDesignThemes.Wpf.xml
-C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\App.baml
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\MainWindow.baml
+C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\MainWindow.g.cs
+C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\App.g.cs
+C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI_Content.g.cs
+C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI_MarkupCompile.cache
+C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI_MarkupCompile.lref
+C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\App.baml
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI.g.resources
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI.Properties.Resources.resources
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI.csproj.GenerateResource.cache
@@ -25,5 +26,4 @@ C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_T
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI.csproj.CopyComplete
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI.exe
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI.pdb
-C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI_Content.g.cs
 C:\Users\Alejandro-PC\source\repos\Milwaukee_Drill_Trigger_GUI\Milwaukee_Drill_Trigger_GUI\obj\Debug\Milwaukee_Drill_Trigger_GUI.csprojAssemblyReference.cache

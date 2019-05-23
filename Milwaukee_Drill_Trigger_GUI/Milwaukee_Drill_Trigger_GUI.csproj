@@ -34,6 +34,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
@@ -110,16 +130,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\breithorn-driver-wrapper.dll" />
-    <Content Include="lib\breithorn-driver-wrapper_x86.dll" />
-    <Content Include="lib\breithorn-driver.dll" />
-    <Content Include="lib\breithorndriverwrapper.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\mps_logo_blue.png" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
+    <Content Include="lib\breithorn-driver-wrapper.dll" />
+    <Content Include="lib\breithorn-driver.dll" />
+    <Content Include="lib\libgcc_s_dw2-1.dll" />
+    <Content Include="lib\libstdc++-6.dll" />
+    <Content Include="lib\libusb-1.0.dll" />
+    <Content Include="lib\libwinpthread-1.dll" />
+    <Content Include="lib\Qt5Core.dll" />
+    <Content Include="lib\Qt5Gui.dll" />
+    <Content Include="lib\Qt5PrintSupport.dll" />
+    <Content Include="lib\Qt5Widgets.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)lib\*.dll" "$(TargetDir)" /Y /E
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

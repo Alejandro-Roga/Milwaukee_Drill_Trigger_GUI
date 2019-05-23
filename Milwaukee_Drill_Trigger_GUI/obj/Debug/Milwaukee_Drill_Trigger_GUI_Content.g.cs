@@ -9,8 +9,14 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/breithorn-driver-wrapper.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/breithorn-driver-wrapper_x86.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/breithorn-driver.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/breithorndriverwrapper.h")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/libgcc_s_dw2-1.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/libstdc++-6.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/libusb-1.0.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/libwinpthread-1.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/qt5core.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/qt5gui.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/qt5printsupport.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/qt5widgets.dll")]
 
 

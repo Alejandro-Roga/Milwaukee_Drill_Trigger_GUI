@@ -32,7 +32,8 @@ namespace Milwaukee_Drill_Trigger_GUI
         private double ang_tsh;
         private double trv_tsh = 3;
         private readonly Regex _regex = new Regex("[0-9]");
-        Connect device;
+        public event PropertyChangedEventHandler PropertyChanged;
+        private Connect device;
         #endregion
 
         #region Properties
@@ -56,16 +57,15 @@ namespace Milwaukee_Drill_Trigger_GUI
                 OnPropertyChanged("Travel_Value");
             }
         }
+        public int Sample_period { get; set; }
         public UInt16 Zero_Value { get; set; } = 0;
         public UInt16 Zero_Prev { get; set; } = 0;
-        public bool MGL { get; set; } = false; //Register 0x27 bit 6
-        public bool MGH { get; set; } = false; //Register 0x27 bit 7
-
-        public SeriesCollection SeriesCollection { get; set; }
+        public bool MGL { get; set; } = false;
+        public bool MGH { get; set; } = false;
+        public bool IsReading { get; set; }
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
-        public int Sample_period { get; set; }
-        public bool IsReading { get; set; }
+        public SeriesCollection SeriesCollection { get; set; }
         #endregion
 
         #region Constructor
@@ -93,6 +93,7 @@ namespace Milwaukee_Drill_Trigger_GUI
         }
         #endregion
 
+        #region Methods
         private async void Read()
         {
             while (IsReading)
@@ -102,7 +103,7 @@ namespace Milwaukee_Drill_Trigger_GUI
                     ResetUI(true);
 
                 device.ReadMagnetFlag();
-                
+
                 //Console.WriteLine("angle: " + Angle_Value);
                 if (Angle_Value > MAX_ANGLE) Angle_Value = MAX_ANGLE;
 
@@ -115,7 +116,7 @@ namespace Milwaukee_Drill_Trigger_GUI
                 Travel_Value = Angle_Value * angToTrv;
                 if (Travel_Value > trv_tsh)
                 {
-                    if(!(device.MGL||device.MGH))
+                    if (!(device.MGL || device.MGH))
                     {
                         LED_Drill.Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom(MPS_BLUE));
                         LED_Drill_Text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFFFFF"));
@@ -150,7 +151,7 @@ namespace Milwaukee_Drill_Trigger_GUI
             Travel_Value = 0;
             Angle_Value = 0;
             IsReading = false;
-            if(error) MessageBox.Show("The device has been disconncted.", "Connection Error");
+            if (error) MessageBox.Show("The device has been disconncted.", "Connection Error");
             Connect_Button.Content = "CONNECT";
             Connect_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF006AC6"));
             Start_Button.Content = "START";
@@ -159,186 +160,8 @@ namespace Milwaukee_Drill_Trigger_GUI
             LED_Drill.Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFFFFF"));
             LED_Drill_Text.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom(MPS_BLUE));
             LED_Drill_Text.Text = "Drill OFF";
-           
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #region Buton Click Events
-        private void Connect_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (!IsDeviceConnected)
-            {
-                device.InitConnect();
-                if (device.IsConnected)
-                {
-                    IsDeviceConnected = true;
-
-                    Connect_Button.Content = "CONNECTED";
-                    Connect_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF34D08C"));
-                    Config_Container.IsEnabled = true;
-
-                    MG_value = device.ReadMagnetValue();
-                    if (MG_value > 223) MGL_Slider.Value = (MG_value >> 5) - 1;
-                    else MGL_Slider.Value = (MG_value >> 5) + 1;
-                    if ((MG_value & 0x1C) > 27) MGH_Slider.Value = (MG_value >> 2) - 1;
-                    else MGH_Slider.Value = (MG_value >> 2) + 1;
-
-                    MGH_Slider.Value = MG_value >> 2;
-                    MGL_Slider.Value = MG_value >> 5;
-
-                    device.WriteAtRegister(0, 0);
-                    device.WriteAtRegister(1, 0);
-
-                    if (!IsReading)
-                    {
-                        IsReading = true;
-                        if (IsReading) Read();
-                       
-                    }
-                   
-                }
-            }
-            else
-            {
-                ResetUI(false);
-                device.CloseConnection();
-                IsDeviceConnected = false;
-                Connect_Button.Content = "CONNECT";
-                Connect_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(MPS_BLUE));
-                Config_Container.IsEnabled = false;
-            }
-        }
-        
-        private void Start_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (device.IsConnected)
-            {
-                if (!IsReading)
-                {
-                    IsReading = true;
-                    if (IsReading) Read();
-                    Start_Button.Content = "STOP";
-                    Start_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE14938"));
-                }
-                else
-                {
-                    IsReading = false;
-                    Start_Button.Content = "START";
-                    Start_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF34D08C"));
-                }
-            }
-        }
-        private void Save_Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Not implemented yet.");
-        }
-        #endregion
-
-        #region Inputs Events
-        private bool IsTextAllowed(string text)
-        {
-            return _regex.IsMatch(text);
-        }
-        private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            e.Handled = !IsTextAllowed(e.Text);
-        }
-
-        private void BCT_Text_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (BCT_Text.Text == "") BCT_Text.Text = "0";
-            int bct_value = Convert.ToByte(BCT_Text.Text);
-            bct_k = (float) (258 - bct_value) / 258;
-
-            MGH_RiseFall(int.Parse(MGH_Text.Text));
-            MGL_RiseFall(int.Parse(MGL_Text.Text));
-
-            device.WriteAtRegister(2, Convert.ToByte(bct_value));
-        }
-        private void MGH_Text_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (MGH_Text.Text == "") MGH_Text.Text = "0";
-
-            int temp = int.Parse(MGH_Text.Text);
-            MGH_RiseFall(temp);
-            temp = (int.Parse(MGL_Text.Text) << 5) + (int.Parse(MGH_Text.Text) << 2);
-
-            //device.WriteAtRegister(6, Convert.ToByte(temp));
-
-            MG_value = device.ReadMagnetValue();
-            Console.WriteLine(Convert.ToString(MG_value, 2));
-        }
-        private void MGL_Text_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (MGL_Text.Text == "") MGL_Text.Text = "0";
-            if (int.Parse(MGL_Text.Text) > 7) MGL_Text.Text = "7";
-            int temp = int.Parse(MGL_Text.Text);
-            MGL_RiseFall(temp);
-
-            temp = (int.Parse(MGL_Text.Text) << 5) + (int.Parse(MGH_Text.Text) << 2);
-            //device.WriteAtRegister(6, Convert.ToByte(temp));
-            MG_value = device.ReadMagnetValue();
-            Console.WriteLine(Convert.ToString(MG_value, 2));
-        }
-        private void Zero_Text_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (Zero_Text.Text == "") Zero_Text.Text = "0";
 
         }
-
-        private void BCT_Text_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                if(BCT_Text.Text != "")
-                    BMT_Slider.Value = int.Parse(BCT_Text.Text);
-        }
-        private void MGH_Text_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                if (MGH_Text.Text != "")
-                    MGH_Slider.Value = int.Parse(MGH_Text.Text);
-        }
-        private void MGL_Text_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                if (MGL_Text.Text != "")
-                    MGL_Slider.Value = int.Parse(MGL_Text.Text);
-        }
-
-        private void MGH_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            MGH_RiseFall((int)MGH_Slider.Value);
-
-            //device.WriteAtRegister(6, Convert.ToByte(temp >> 2));
-
-        }
-        private void MGL_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            MGL_RiseFall((int)MGL_Slider.Value);
-
-        }
-        #endregion
-
-        private async static Task AsyncDelay(int interval) => await Task.Delay(interval);
-
-        private void BMT_Slider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            int bct_value = (int)BMT_Slider.Value;
-            bct_k = (float)(258 - bct_value) / 258;
-
-            MGH_RiseFall(int.Parse(MGH_Text.Text));
-            MGL_RiseFall(int.Parse(MGL_Text.Text));
-
-            //device.WriteAtRegister(2, Convert.ToByte(bct_value));
-
-
-
-        }
-
         private void MGH_RiseFall(int temp)
         {
             switch (temp)
@@ -421,7 +244,75 @@ namespace Milwaukee_Drill_Trigger_GUI
             MGL_Fall.Text = (mglt_fall / bct_k).ToString();
             MGL_Rise.Text = (mglt_rise / bct_k).ToString();
         }
+        #endregion
+        
+        #region Buton Click Events
+        private void Connect_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsDeviceConnected)
+            {
+                device.InitConnect();
+                if (device.IsConnected)
+                {
+                    IsDeviceConnected = true;
 
+                    Connect_Button.Content = "CONNECTED";
+                    Connect_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF34D08C"));
+                    Config_Container.IsEnabled = true;
+                    device.WriteAtRegister(6, 0);
+                    MG_value = device.ReadMagnetValue();
+                    if (MG_value > 223) MGL_Slider.Value = (MG_value >> 5) - 1;
+                    else MGL_Slider.Value = (MG_value >> 5) + 1;
+                    if ((MG_value & 0x1C) > 27) MGH_Slider.Value = (MG_value >> 2) - 1;
+                    else MGH_Slider.Value = (MG_value >> 2) + 1;
+
+                    MGH_Slider.Value = MG_value >> 2;
+                    MGL_Slider.Value = MG_value >> 5;
+
+                    device.WriteAtRegister(0, 0);
+                    device.WriteAtRegister(1, 0);
+                    device.WriteAtRegister(3, 3);//debug mkaelin, set ETX and ETY to 1, otherwise the BCT settings has no effect at all
+
+                    if (!IsReading)
+                    {
+                        IsReading = true;
+                        if (IsReading) Read();
+                    }
+                }
+            }
+            else
+            {
+                ResetUI(false);
+                device.CloseConnection();
+                IsDeviceConnected = false;
+                Connect_Button.Content = "CONNECT";
+                Connect_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom(MPS_BLUE));
+                Config_Container.IsEnabled = false;
+            }
+        }  
+        private void Start_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (device.IsConnected)
+            {
+                if (!IsReading)
+                {
+                    IsReading = true;
+                    if (IsReading) Read();
+                    Start_Button.Content = "STOP";
+                    Start_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFE14938"));
+                }
+                else
+                {
+                    IsReading = false;
+                    Start_Button.Content = "START";
+                    Start_Button.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF34D08C"));
+                }
+            }
+        }
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            device.StoreAllRegistersToNvm();
+        }
         private void Zero_Button_Click(object sender, RoutedEventArgs e)
         {
             device.WriteAtRegister(0, 0);
@@ -439,6 +330,104 @@ namespace Milwaukee_Drill_Trigger_GUI
             Zero_Prev += temp;
 
         }
+        #endregion
+
+        #region Inputs Events
+        private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e) => e.Handled = !IsTextAllowed(e.Text);
+        
+        private void BCT_Text_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (BCT_Text.Text == "") BCT_Text.Text = "0";
+            int bct_value = Convert.ToByte(BCT_Text.Text);
+            bct_k = (float) (258 - bct_value) / 258;
+
+            MGH_RiseFall(int.Parse(MGH_Text.Text));
+            MGL_RiseFall(int.Parse(MGL_Text.Text));
+
+            device.WriteAtRegister(2, Convert.ToByte(bct_value));
+        }
+        private void MGH_Text_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (MGH_Text.Text == "") MGH_Text.Text = "0";
+
+            int temp = int.Parse(MGH_Text.Text);
+            MGH_RiseFall(temp);
+            temp = (int.Parse(MGL_Text.Text) << 5) + (int.Parse(MGH_Text.Text) << 2) + 1;//mkaelin debug, set MG to 1, otherwise the MagLevel feature is disabled
+            device.WriteAtRegister(6, Convert.ToByte(temp));//mkaelin debug
+
+            MG_value = device.ReadMagnetValue();
+            Console.WriteLine(Convert.ToString(MG_value, 2));
+        }
+        private void MGL_Text_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (MGL_Text.Text == "") MGL_Text.Text = "0";
+            if (int.Parse(MGL_Text.Text) > 7) MGL_Text.Text = "7";
+            int temp = int.Parse(MGL_Text.Text);
+            MGL_RiseFall(temp);
+
+            temp = (int.Parse(MGL_Text.Text) << 5) + (int.Parse(MGH_Text.Text) << 2) + 1;//mkaelin debug, set MG to 1, otherwise the MagLevel feature is disabled
+            device.WriteAtRegister(6, Convert.ToByte(temp));//mkaelin debug
+            MG_value = device.ReadMagnetValue();
+            Console.WriteLine(Convert.ToString(MG_value, 2));
+        }
+        private void Zero_Text_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Zero_Text.Text == "") Zero_Text.Text = "0";
+        }
+
+        private void BCT_Text_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                if(BCT_Text.Text != "")
+                    //debug mkaelin
+                    BMT_Slider.Value = int.Parse(BCT_Text.Text);
+                    device.WriteAtRegister(2, Convert.ToByte(int.Parse(BCT_Text.Text)));//mkaelin debug
+        }
+        private void MGH_Text_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                if (MGH_Text.Text != "")
+                    MGH_Slider.Value = int.Parse(MGH_Text.Text);
+        }
+        private void MGL_Text_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                if (MGL_Text.Text != "")
+                    MGL_Slider.Value = int.Parse(MGL_Text.Text);
+        }
+
+        private void MGH_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MGH_RiseFall((int)MGH_Slider.Value);
+            int temp = ((int)MGL_Slider.Value << 5) + ((int)MGH_Slider.Value << 2) + 1;//mkaelin debug, set MG to 1otherwise the MagLevel feature is disabled
+            device.WriteAtRegister(6, Convert.ToByte(temp));//mkaelin debug
+
+        }
+        private void MGL_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MGL_RiseFall((int)MGL_Slider.Value);
+            int temp = ((int)MGL_Slider.Value << 5) + ((int)MGH_Slider.Value << 2) + 1;//mkaelin debug, set MG to 1otherwise the MagLevel feature is disabled
+            device.WriteAtRegister(6, Convert.ToByte(temp));//mkaelin debug
+
+        }
+
+        private void BMT_Slider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            int bct_value = (int)BMT_Slider.Value;
+            bct_k = (float)(258 - bct_value) / 258;
+
+            MGH_RiseFall(int.Parse(MGH_Text.Text));
+            MGL_RiseFall(int.Parse(MGL_Text.Text));
+
+            device.WriteAtRegister(2, Convert.ToByte(bct_value));//mkaelin debug
+
+        }
+        #endregion
+
+        private bool IsTextAllowed(string text) => _regex.IsMatch(text);
+        private async static Task AsyncDelay(int interval) => await Task.Delay(interval);
+        protected virtual void OnPropertyChanged(string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        
     }
 }
 

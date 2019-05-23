@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Milwaukee_Drill_Trigger_GUI"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="MainWindow"  
@@ -52,7 +51,7 @@
                 <TextBox HorizontalAlignment="Left" Height="25" Margin="20,441,0,0" TextWrapping="Wrap" Text="Zero Setting" VerticalAlignment="Top" Width="138" FontSize="14" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" Cursor="Arrow"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="20,473,0,0" TextWrapping="Wrap" Text=" Zero at:" VerticalAlignment="Top" Width="58" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
                 <Button x:Name="Zero_Button" Height="23" Margin="175,473,0,0" VerticalAlignment="Top" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Focusable="False" AllowDrop="False" IsTabStop="False" HorizontalAlignment="Left" Width="199" Content="Set current angle as Zero" Background="White" Foreground="#DD000000" Padding="16,2" Click="Zero_Button_Click" BorderBrush="#FF006AC6"/>
-                <Button x:Name="Save_Button" Content="SAVE" HorizontalAlignment="Left" Margin="296,0,0,20" VerticalAlignment="Bottom" Width="80" Background="#FF006AC6" BorderBrush="#7F000000" Height="37" Click="Save_Button_Click" />
+                <Button x:Name="Save_Button" Content="SAVE TO NVM" HorizontalAlignment="Left" Margin="260,0,0,20" VerticalAlignment="Bottom" Width="116" Background="#FF006AC6" BorderBrush="#7F000000" Height="37" Click="Save_Button_Click" Padding="10,4" />
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="33,348,0,0" TextWrapping="Wrap" Text="- Threshold [mT]:" VerticalAlignment="Top" Width="102" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
                 <TextBox x:Name="MGH_Rise" HorizontalAlignment="Left" Height="23" Margin="175,348,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="0" TabIndex="2" PreviewTextInput="TextBox_PreviewTextInput" LostFocus="Zero_Text_LostFocus" IsTabStop="False" Focusable="False" AllowDrop="False" CaretBrush="#FF006AC6" SelectionBrush="#FF006AC6" Cursor="Arrow"/>
                 <TextBox HorizontalAlignment="Left" Height="21" Margin="135,350,0,0" TextWrapping="Wrap" Text="Rise" VerticalAlignment="Top" Width="35" FontSize="12" Foreground="#FF006AC6" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" FontWeight="Bold" HorizontalContentAlignment="Center" Cursor="Arrow"/>
@@ -73,11 +72,6 @@
             <Rectangle Fill="#FFFAFAFA" Height="34" Margin="0,0,5,31" Stroke="#FFFAFAFA" VerticalAlignment="Bottom" Panel.ZIndex="1"/>
             <TextBox HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" TextWrapping="Wrap" Text="Trigger Position" VerticalAlignment="Top" Width="164" FontSize="20" Foreground="#FF006AC6" FontWeight="Bold" BorderThickness="0" IsTabStop="False" Focusable="False" AllowDrop="False" Cursor="Arrow"/>
             <TextBox x:Name="Position_Value_Text" Margin="138,0,139,38" TextWrapping="Wrap" FontSize="20" Foreground="White" FontWeight="Bold" BorderThickness="0" Panel.ZIndex="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsTabStop="False" Focusable="False" AllowDrop="False" Height="31" VerticalAlignment="Bottom" Cursor="Arrow"/>
-            <!--<lvc:Gauge x:Name="Position_Graph" Value="{Binding Value}" Grid.Column="0" Margin="10,0,10,10" From="0" To="100" AnimationsSpeed="0:0:0.1" Foreground="#DD000000" GaugeActiveFill="Red">
-                <lvc:Gauge.GaugeBackground>
-                    <SolidColorBrush Color="#FF0078FF" Opacity="0.1"/>
-                </lvc:Gauge.GaugeBackground>
-            </lvc:Gauge>-->
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
             <lvc:AngularGauge x:Name="Angle_Graph" Value="{Binding Angle_Value}" FromValue="0" ToValue="270" AnimationsSpeed="0:0:0.05"
@@ -95,7 +89,6 @@
             <TextBlock x:Name="Angle_Value_Text" Margin="120,144,119,144" FontSize="72" FlowDirection="RightToLeft" Foreground="#FFC1C8D0" HorizontalAlignment="Center"/>
             <TextBox Margin="135,121,136,0" Text="Sensor Angle" FontSize="20" Foreground="#FF006AC6" FontWeight="Bold" VerticalAlignment="Top" Height="31" BorderThickness="0" AllowDrop="False" Focusable="False" IsTabStop="False" HorizontalAlignment="Center" Cursor="Arrow"/>
         </Grid>
-
         <Grid x:Name="Control_Buttons" Grid.Row="3" Grid.Column="1">
             <materialDesign:Card Padding="32" VerticalAlignment="Stretch" Margin="52,0,52,10" MaxWidth="292"/>
             <TextBox x:Name="LED_Drill_Text" Margin="262,0,80,39" TextWrapping="Wrap" Text="Drill OFF" Foreground="#FF006AC6" BorderThickness="0" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" Panel.ZIndex="1" Focusable="False" AllowDrop="False" IsTabStop="False" Height="54" VerticalAlignment="Bottom" MaxWidth="54" Cursor="Arrow"/>
