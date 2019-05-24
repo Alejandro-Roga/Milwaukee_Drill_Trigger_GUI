@@ -15,7 +15,8 @@ namespace Milwaukee_Drill_Trigger_GUI
         private const string MPS_BLUE = "#FF006AC6";
         private const string MPS_GREY = "#FFC1C8D0";
         private const double MAX_ANGLE = 300;
-        private const double MAX_TRAVEL = 8.80;
+        private const double MAX_ANGLE_WITH_SAFETY_MARGIN = MAX_ANGLE + 10;
+        private const double MAX_TRAVEL = 9.0;
         #endregion
 
         #region Variables
@@ -104,8 +105,8 @@ namespace Milwaukee_Drill_Trigger_GUI
 
                 device.ReadMagnetFlag();
 
-                //Console.WriteLine("angle: " + Angle_Value);
-                if (Angle_Value > MAX_ANGLE) Angle_Value = MAX_ANGLE;
+                if (Angle_Value > MAX_ANGLE_WITH_SAFETY_MARGIN) Angle_Value = 0;
+                else if (Angle_Value > MAX_ANGLE) Angle_Value = MAX_ANGLE;
 
                 if (device.MGH) MGH_Led.Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom(MPS_BLUE));
                 else MGH_Led.Fill = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFFFFF"));
@@ -319,7 +320,6 @@ namespace Milwaukee_Drill_Trigger_GUI
             device.WriteAtRegister(1, 0);
 
             Angle_Value = device.AngularPosition();
-            Console.WriteLine("a: " + Angle_Value);
 
             UInt16 temp = Convert.ToUInt16(Angle_Value * 65536 / 360);
 
